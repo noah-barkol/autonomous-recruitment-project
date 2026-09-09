@@ -14,9 +14,9 @@ def controller(x):
     Returns:
         ndarray: numpy array of shape (2,) containing [fwd acceleration, steering rate]
     """
-    xpos   = x[0]                   # current x position
+    xpos   = x[0]                   # current x position, first index of numpy array
     ypos   = x[1]                   # current y position
-    phi    = np.mod(x[2], 2*np.pi)  # current heading (radians)
+    phi    = np.mod(x[2], 2*np.pi)  # current heading (radians), gives most reduced version of angle
     v      = x[3]                   # current velocity
     theta   = x[4]                  # current steering angle
 
