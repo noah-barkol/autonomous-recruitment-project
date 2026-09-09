@@ -18,13 +18,13 @@ def controller(x):
     ypos   = x[1]                   # current y position
     phi    = np.mod(x[2], 2*np.pi)  # current heading (radians), gives most reduced version of angle
     v      = x[3]                   # current velocity
-    theta   = x[4]                  # current steering angle
+    theta   = x[4]                  # current steering angle (-0.7 to 0.7)
 
+    # consider feeback is noisy
     
     
-    ... # YOUR CODE HERE
 
-    return np.array([0,0])
+    return np.array([0,0])          # return recommended acceleration (range: -10 to 4) and time derivative of steering angle (range: -1.0 to 1.0)
 
 
 
