@@ -34,9 +34,15 @@ def controller(x):
 
     # Find closest point on centerline to car's current position
     current_position = np.array([xpos, ypos])       # puts input values of current position into an array for numpy to use  
-    # Finds arc length (defined as s by Jaden) on centerline using numpy
-    arc_length = np.sqrt((points[0] - current_position[0])**2 + (points[1] - current_position[1])**2)   
-    
+    # Finds arc length (defined as s by Jaden) to points on centerline using numpy
+    arc_lengths = np.sqrt((points[:, 0] - current_position[0])**2 + (points[:, 1] - current_position[1])**2)   # researched that : traverses through columns
+    # Finds distance to closest coordinate pair by finding minimum of all the distances from the current position to all the points
+    closest_index = np.argmin(arc_lengths)     # switched from np.min to np.argmin to get index instead of value
+
+
+    # Find next index of arc_lengths and thus next position to travel to
+    next_index = closest_index + 10               # using 10 as a placeholder. not sure what to do at end of track    
+    next_position = points(next_index)            # searches in points for an x,y coordinate for next_index
     next_x = next_position[0]
     next_y = next_position[1]
 
