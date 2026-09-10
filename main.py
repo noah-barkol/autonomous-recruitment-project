@@ -28,10 +28,15 @@ def controller(x):
     acc_output = 0
     theta_dt = 0
     
-    line_coordinates = centerline(np.linspace([0, 105, 1000])
+    increments = np.linspace(0, 105, 1000)          # what to call centerline on; creates 1000 increments along centerline
                
-    points = centerline(line_coordinates)          # 1000 checkpoints to 
-    next_position = (arc_length + increment_distance)   # returns (x,y) coordinate, can use with x,y coordinates of left and right cones to figure out how fast to change angle
+    points = centerline(increments)                 # gets x,y coordinates for each increment
+
+    # Find closest point on centerline to car's current position
+    current_position = np.array([xpos, ypos])       # puts input values of current position into an array for numpy to use  
+    # Finds arc length (defined as s by Jaden) on centerline using numpy
+    arc_length = np.sqrt((points[0] - current_position[0])**2 + (points[1] - current_position[1])**2)   
+    
     next_x = next_position[0]
     next_y = next_position[1]
 
