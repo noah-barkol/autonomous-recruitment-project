@@ -36,8 +36,8 @@ def controller(x):
     current_position = np.array([xpos, ypos])       # puts input values of current position into an array for numpy to use  
     # Finds arc length (defined as s by Jaden) to points on centerline using numpy
     arc_lengths = np.sqrt((points[:, 0] - current_position[0])**2 + (points[:, 1] - current_position[1])**2)   # researched that : traverses through columns
-    # Finds distance to closest coordinate pair by finding minimum of all the distances from the current position to all the points
-    closest_index = np.argmin(arc_lengths)     # switched from np.min to np.argmin to get index instead of value
+    # Finds index of closest coordinate pair by finding minimum of all the distances from the current position to all the points
+    closest_index = np.argmin(arc_lengths)     # switched from np.min to np.argmin to get index instead of distance value
 
 
     # Find next index of arc_lengths and thus next position to travel to
@@ -46,6 +46,14 @@ def controller(x):
     next_x = next_position[0]
     next_y = next_position[1]
 
+    # Use current heading and steering direction to know where pointed and going respectively, then adjust steering direction at a certain intensity.
+        # For this, I need to know how far off the heading/direction are, so I need to use 
+    #abs value
+    angle_to_point = arctan(abs((next_y - ypos)/(next_x - xpos)))
+    angle_phi = phi * np.pi / 180            # current heading in angles instead of radians
+
+    # The higher the theta_dt value is (how intensely the car is going to be turned), acceleration should be lower
+    
     return np.array([acc_output, theta_dt])          # acceleration range: (sim.accel_limits: -10 to 4) and theta dt range: (-1.0 to 1.0)
 
 
