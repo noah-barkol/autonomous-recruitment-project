@@ -40,7 +40,7 @@ def controller(x):
     closest_index = np.argmin(distances)  
 
     # Calculate how many indices you'll pass with current speed
-    meters = v * TIME_STEP  # *** might need to be multiplied by a gain variable to amplify time_step
+    meters = max(v * TIME_STEP * 5, 1.0)  # *** might need to be multiplied by a gain variable to amplify time_step
     lookahead = meters / meters_per_index
 
     # Find next index of arc_lengths and thus next position to travel to
@@ -83,6 +83,7 @@ def controller(x):
         
     accel_output = np.clip(accel_output, -accel_left, accel_left)
     accel_output = np.clip(accel_output, sim.lbu[0], sim.ubu[0])
+    
     return np.array([accel_output, theta_dt])        
 
 
