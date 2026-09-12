@@ -65,11 +65,11 @@ def controller(x):
     
     # PLACEHOLDER VALUES FOR VELOCITY AND NEXT_STEER_ANGLE. Acceleration range: (sim.accel_limits: -10 to 4)
     if abs(theta_desired) > 0.5:            # theta_desired is how much front wheels are about to be turned
-        if v > 5.0:                         # large steer angle and high velocity = decelerate
+        if v > 7.0:                         # large steer angle and high velocity = decelerate
             accel_output = -6.0
         else:
             accel_output = -1.0
-    elif abs(theta_desired) > 0.3:
+    elif abs(theta_desired) > 0.4:
         if v > 7.0:
             accel_output = -2.0
         else:
@@ -78,8 +78,10 @@ def controller(x):
         accel_output = 3.0
     elif v > 12.0:
         accel_output = -1.0
+    elif v > 7.0:
+        accel_output = 1.0
     else:
-        accel_output = 0.0
+        accel_output = 2.0
         
     accel_output = np.clip(accel_output, -accel_left, accel_left)
     accel_output = np.clip(accel_output, sim.lbu[0], sim.ubu[0])
