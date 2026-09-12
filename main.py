@@ -63,13 +63,13 @@ def controller(x):
     lateral_accel = (v**2 / (WHEELBASE / 2)) * np.sin(np.arctan(0.5 * np.tan(theta))) # from _get_accel in simulator.py
     accel_left = np.sqrt(max(MAX_ACCELERATION**2 - lateral_accel**2, 0)) # calculates how high acceleration output can go
     
-    # PLACEHOLDER VALUES FOR VELOCITY AND NEXT_STEER_ANGLE. Acceleration range: (sim.accel_limits: -10 to 4)
+    # Finding acceleration for different scenarios
     if abs(theta_desired) > 0.5:            # theta_desired is how much front wheels are about to be turned
-        if v > 7.0:                         # large steer angle and high velocity = decelerate
+        if v > 5.0:                         # large steer angle and high velocity = decelerate
             accel_output = -6.0
         else:
             accel_output = -1.0
-    elif abs(theta_desired) > 0.4:
+    elif abs(theta_desired) > 0.3:
         if v > 7.0:
             accel_output = -2.0
         else:
@@ -78,29 +78,23 @@ def controller(x):
         accel_output = 3.0
     elif v > 12.0:
         accel_output = -1.0
-    elif v > 7.0:
-        accel_output = 1.0
     else:
-        accel_output = 2.0
+        accel_output = 0.0
         
-    accel_output = np.clip(accel_output, -accel_left, accel_left)
-    accel_output = np.clip(accel_output, sim.lbu[0], sim.ubu[0])
+    accel_output = np.clip(accel_output, -accel_left, accel_left) 
+    accel_output = np.clip(accel_output, sim.lbu[0], sim.ubu[0])  # Acceleration range: (sim.accel_limits: -10 to 4)
     
     return np.array([accel_output, theta_dt])        
 
-
-
-
+# Code for testing values
 sim.set_controller(controller)
 sim.run()
 
 ts, xs, us, crash, slip = sim.get_results()
-print("any crash:", np.any(crash))
-print("any slip:", np.any(slip))
 print("crash count:", np.sum(crash))
 print("slip count:", np.sum(slip))
 print("max v:", np.max(xs[3]))
 print("final position:", xs[0, -1], xs[1, -1])
 
-# sim.animate()   # commented out -- no display in Codespaces
+# sim.animate()
 # sim.plot()
