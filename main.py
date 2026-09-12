@@ -90,5 +90,14 @@ def controller(x):
 
 sim.set_controller(controller)
 sim.run()
-sim.animate()
-sim.plot()
+
+ts, xs, us, crash, slip = sim.get_results()
+print("any crash:", np.any(crash))
+print("any slip:", np.any(slip))
+print("crash count:", np.sum(crash))
+print("slip count:", np.sum(slip))
+print("max v:", np.max(xs[3]))
+print("final position:", xs[0, -1], xs[1, -1])
+
+# sim.animate()   # commented out -- no display in Codespaces
+# sim.plot()
